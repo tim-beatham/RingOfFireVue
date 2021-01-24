@@ -1,0 +1,52 @@
+{
+  "cards": [
+    {
+      "title": "Two of Clubs",
+      "href": "2C.png"
+    },
+    {
+      "title": "Two of Diamonds",
+      "href": "2D.png"
+    },
+    {
+      "title": "Two of Hearts",
+      "href": "2H.png"
+    },
+    {
+      "title": "Two of Spades",
+      "href": "2C.png"
+    },
+    {
+      "title": "Three of Clubs",
+      "href": "3C.png"
+    },  
+    {
+      "title": "Three of Hearts",
+      "href": "3H.png"
+    },
+    {
+      "title": "Three of Diamonds",
+      "href": "3D.png"
+    },
+    {
+      "title": "Three of Spades",
+      "href": "3S.png"
+    },
+    {
+      "title": "Four of Clubs",
+      "href": "4C.png"
+    },
+    {
+      "title": "Four of Diamonds",
+      "href": "4D.png"
+    },
+    {
+      "title": "Four of Hearts",
+      "href": "4H.png"
+    },
+    {
+      "title": "Four of Spades",
+      "href": "4S.png"
+    }
+  ]
+}
