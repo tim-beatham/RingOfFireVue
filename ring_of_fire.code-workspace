@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "api"
+		},
+		{
+			"path": "ring_of_fire"
 		}
 	],
 	"settings": {}
