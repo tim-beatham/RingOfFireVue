@@ -112,8 +112,15 @@ class Game {
    * Gets the username of the current player.
     * @return {string}          gets the username of the current player.
    */
-  getCurrentPlayer() {
+  get currentPlayer() {
     return this.players[this.currentPlayerIndex]
+  }
+
+  /**
+   * @return {Number}           the numbers of players  
+   */
+  get numPlayers() {
+    return this.players.length
   }
 
   /**
@@ -123,6 +130,10 @@ class Game {
   addPlayer(player) {
     if (this.isPlaying == true)
       throw new Error('attempted to add a player when the game has already started')
+    
+    if (this.players.indexOf(player) !== -1)
+      throw new Error('user is already in the game')
+      
     this.players.push(player)
   }
 
@@ -138,9 +149,34 @@ class Game {
   /**
    * Picks a random player index. This is used to find
    * the person whos go it is.
+   * 
+   * @return {Number}         the randomly selected index.
    */
   _randomPlayerIndex() {
     return Math.floor(Math.random() * this.players.length)
+  }
+
+  /**
+   * Removes the player from the room.
+   */
+  removePlayer (username) {
+    let indexOfPlayer = this.players.indexOf(username)
+
+    if (indexOfPlayer !== -1) {
+      this.players.splice(indexOfPlayer, 1)
+    }
+  }
+
+  /**
+    * Select another user as the host.
+    * Presumes that the new host has been removed
+    * from the game.
+    * 
+    * @return         the username of the new host
+    */
+  calcHost () {
+    this.host = this.players[0]
+    return this.host
   }
 }
 
@@ -212,11 +248,17 @@ function onJoinGame(socket, io) {
     socket.emit('gameJoined', { gameName: game.gameName, username, 
       gameID, players: game.players})
 
+    // Only the user can start a game so register that event to them.
+    // Which we want to do this in case the host leaves the game...
+    registerStartGameEvent(socket, io, game.gameID, username)
+
     // Attatch the events for the next round.
     onNextRound(socket, io, gameID, username)
     
-    // Attatch the events for the user picking a given card.
+    // Attach the events for the user picking a given card.
     onGetCard(socket, io, gameID, username)
+
+    onLeaveRoom(socket, io, game.gameID, username)
   })
 }
 
@@ -254,6 +296,8 @@ function onCreateGame(socket, io) {
     
     // Register the user getting a card event.
     onGetCard(socket, io, game.gameID, hostName)
+
+    onLeaveRoom(socket, io, game.gameID, hostName)
   })
 }
 
@@ -277,7 +321,7 @@ function registerStartGameEvent(socket, io, gameID, username) {
     game.startGame()
 
     // Emit that the game has started to all the users subscribed to the game.
-    io.in(gameID).emit('nextRound', game.getCurrentPlayer())
+    io.in(gameID).emit('nextRound', game.currentPlayer())
   });
 }
 
@@ -297,7 +341,7 @@ function onNextRound(socket, io, gameID, username) {
   socket.on('nextRound', () => {
     let game = games[gameID]
 
-    if (game.getCurrentPlayer() !== username)
+    if (game.currentPlayer() !== username)
       return
 
     io.in(gameID).emit('nextRound', game.nextPlayer())
@@ -320,7 +364,7 @@ function onGetCard(socket, io, gameID, username) {
     let game = games[gameID]
 
     // Prevent someone trying to cheat
-    if (username !== game.getCurrentPlayer())
+    if (username !== game.currentPlayer())
       return;
     
     // Get a random card
@@ -330,3 +374,29 @@ function onGetCard(socket, io, gameID, username) {
   })
 }
 
+/**
+ * When the client either disconnects
+ * or emits that they would like to leave
+ * the room then remove them from the group
+ * and emit this to all users. 
+ * 
+ * @param {Socket} socket 
+ * @param {Server} io 
+ * @param {String} gameID 
+ * @param {String} username 
+ */
+function onLeaveRoom(socket, io, gameID, username) {
+  socket.on('disconnect', () => {
+    let game = games[gameID]
+
+    game.removePlayer(username)
+
+    io.in(gameID).emit('userLeft', { players: game.players, host: game.calcHost()})
+    console.log(`${username} left ${gameID}`)
+    console.log(game.players)
+
+    if (game.numPlayers == 0) {
+      delete games[gameID]
+    }
+  })
+}

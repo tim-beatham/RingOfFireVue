@@ -50,10 +50,9 @@ const io = new socketIO.Server(HTTP, {
     origin: 'http://localhost:8080',
     credentials: true,
     methods: ['GET', 'POST'],
-    transports: ['websocket', 'polling'],
   },
   allowEIO3: true,
-  pingInterval: 10000
+  pingInterval: 1200000
 });
 
 const __dirname = path.resolve()
