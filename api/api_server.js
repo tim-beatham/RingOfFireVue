@@ -3,8 +3,13 @@ import path from 'path'
 import cors from 'cors'
 import cardsJSON from './data/cards.json'
 import MongoClient from 'mongodb'
+import * as socketIO from 'socket.io'
+import http from 'http'
+import createGameServer from './game_management.js'
+
 
 const APP = express()
+const HTTP = http.Server(APP)
 
 const __dirname = path.resolve()
 
@@ -15,6 +20,19 @@ const DB_NAME = "RingOfFire"
 
 APP.use(cors())
 APP.use(express.json())
+
+
+const io = new socketIO.Server(HTTP, {
+  cors: {
+    origin: 'http://localhost:8080',
+    credentials: true,
+    methods: ['GET', 'POST'],
+    transports: ['websocket', 'polling'],
+  },
+  allowEIO3: true,
+  'pingInterval': 1200000
+});
+
 
 APP.use('/card', express.static(path.join(__dirname, './assets/cards')))
 
@@ -41,9 +59,12 @@ APP.get('/decks', (req, res) => {
     .catch(_ => res.sendStatus(500))  // TODO: In detail error.
 })
 
+// Set up the socket events
+createGameServer(io)
+
 const PORT = process.env.PORT || 3000
 
-APP.listen(PORT, () => {
+HTTP.listen(PORT, () => {
   console.log(`LISTENING ON PORT ${PORT}`)
 })
 

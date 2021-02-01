@@ -2,51 +2,263 @@
   "cards": [
     {
       "title": "Two of Clubs",
-      "href": "2C.png"
+      "href": "2C.png",
+      "code": "C"
     },
     {
       "title": "Two of Diamonds",
-      "href": "2D.png"
+      "href": "2D.png",
+      "code": "2"
     },
     {
       "title": "Two of Hearts",
-      "href": "2H.png"
+      "href": "2H.png",
+      "code": "2"
     },
     {
       "title": "Two of Spades",
-      "href": "2C.png"
+      "href": "2C.png",
+      "code": "2"
     },
     {
       "title": "Three of Clubs",
-      "href": "3C.png"
+      "href": "3C.png",
+      "code": "3"
     },  
     {
       "title": "Three of Hearts",
-      "href": "3H.png"
+      "href": "3H.png",
+      "code": "3"
     },
     {
       "title": "Three of Diamonds",
-      "href": "3D.png"
+      "href": "3D.png",
+      "code": "3"
     },
     {
       "title": "Three of Spades",
-      "href": "3S.png"
+      "href": "3S.png",
+      "code": "3"
     },
     {
       "title": "Four of Clubs",
-      "href": "4C.png"
+      "href": "4C.png",
+      "code": "4"
     },
     {
       "title": "Four of Diamonds",
-      "href": "4D.png"
+      "href": "4D.png",
+      "code": "4"
     },
     {
       "title": "Four of Hearts",
-      "href": "4H.png"
+      "href": "4H.png",
+      "code": "4"
     },
     {
       "title": "Four of Spades",
-      "href": "4S.png"
+      "href": "4S.png",
+      "code": "4"
+    },
+    {
+      "title": "Five of Clubs",
+      "href": "5C.png",
+      "code": "5"
+    },
+    {
+      "title": "Five of Diamonds",
+      "href": "5D.png",
+      "code": "5"
+    },
+    {
+      "title": "Five of Hearts",
+      "href": "5H.png",
+      "code": "5"
+    },
+    {
+      "title": "Five of Spades",
+      "href": "5S.png",
+      "code": "5"
+    },
+    {
+      "title": "Six of Clubs",
+      "href": "6C.png",
+      "code": "6"
+    },
+    {
+      "title": "Six of Diamonds",
+      "href": "6D.png",
+      "code": "6"
+    },
+    {
+      "title": "Six of Hearts",
+      "href": "6H.png",
+      "code": "6"
+    },
+    {
+      "title": "Six of Spades",
+      "href": "6S.png",
+      "code": "6"
+    },
+    {
+      "title": "Seven of Clubs",
+      "href": "7C.png",
+      "code": "7"
+    },
+    {
+      "title": "Seven of Diamonds",
+      "href": "7D.png",
+      "code": "7"
+    },
+    {
+      "title": "Seven of Hearts",
+      "href": "7H.png",
+      "code": "7"
+    },
+    {
+      "title": "Seven of Spades",
+      "href": "7S.png",
+      "code": "7"
+    },
+    {
+      "title": "Eight of Clubs",
+      "href": "8C.png",
+      "code": "8"
+    },
+    {
+      "title": "Eight of Diamonds",
+      "href": "8D.png",
+      "code": "8"
+    },
+    {
+      "title": "Eight of Hearts",
+      "href": "8H.png",
+      "code": "8"
+    },
+    {
+      "title": "Eight of Spades",
+      "href": "8S.png",
+      "code": "8"
+    },
+    {
+      "title": "Nine of Clubs",
+      "href": "9C.png",
+      "code": "9"
+    },
+    {
+      "title": "Nine of Diamonds",
+      "href": "9D.png",
+      "code": "9"
+    },
+    {
+      "title": "Nine of Hearts",
+      "href": "9H.png",
+      "code": "9"
+    },
+    {
+      "title": "Nine of Spades",
+      "href": "9S.png",
+      "code": "9"
+    },
+    {
+      "title": "Ten of Clubs",
+      "href": "10C.png",
+      "code": "10"
+    },
+    {
+      "title": "Ten of Diamonds",
+      "href": "10D.png",
+      "code": "10"
+    },
+    {
+      "title": "Ten of Hearts",
+      "href": "10H.png",
+      "code": "10"
+    },
+    {
+      "title": "Ten of Spades",
+      "href": "10S.png",
+      "code": "10"
+    },
+    {
+      "title": "Jack of Clubs",
+      "href": "JC.png",
+      "code": "J"
+    },
+    {
+      "title": "Jack of Diamonds",
+      "href": "JD.png",
+      "code": "J"
+    },
+    {
+      "title": "Jack of Hearts",
+      "href": "JH.png",
+      "code": "J"
+    },
+    {
+      "title": "Jack of Spades",
+      "href": "JS.png",
+      "code": "J"
+    },
+    {
+      "title": "Queen of Clubs",
+      "href": "QC.png",
+      "code": "Q"
+    },
+    {
+      "title": "Queen of Diamonds",
+      "href": "QD.png",
+      "code": "Q"
+    },
+    {
+      "title": "Queen of Hearts",
+      "href": "QH.png",
+      "code": "Q"
+    },
+    {
+      "title": "Queen of Spades",
+      "href": "QS.png",
+      "code": "Q"
+    },
+    {
+      "title": "King of Clubs",
+      "href": "KC.png",
+      "code": "K"
+    },
+    {
+      "title": "King of Diamonds",
+      "href": "KD.png",
+      "code": "K"
+    },
+    {
+      "title": "King of Hearts",
+      "href": "KH.png",
+      "code": "K"
+    },
+    {
+      "title": "King of Spades",
+      "href": "KS.png",
+      "code": "K"
+    },
+    {
+      "title": "Ace of Clubs",
+      "href": "AC.png",
+      "code": "A"
+    },
+    {
+      "title": "Ace of Diamonds",
+      "href": "AD.png",
+      "code": "A"
+    },
+    {
+      "title": "Ace of Hearts",
+      "href": "AH.png",
+      "code": "A"
+    },
+    {
+      "title": "Ace of Spades",
+      "href": "AS.png",
+      "code": "A"
     }
   ]
 }
