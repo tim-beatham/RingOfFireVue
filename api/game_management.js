@@ -44,8 +44,9 @@ class Deck {
 
   /** 
     * Shuffles the list of cards and picks and removes the end element.
-    * @return {Object} Returns a card object with attributes: 'href', 'title' and 'code.
-  */  
+    * 
+    * @return {Object}            Returns a card object with attributes: 'href', 'title' and 'code.
+   */  
   pickNextCard () {
     this.cards = _.shuffle(this.cards)
     
@@ -54,6 +55,13 @@ class Deck {
     card.action = this.gameRules[card.code]
 
     return card
+  }
+
+  /**
+   * @return {Number}         the number of cards availab
+   */
+  get numCards() {
+    return this.cards.length
   }
 }
 
@@ -157,6 +165,14 @@ class Game {
   }
 
   /**
+   * Returns true if the player is in the game.
+   * @param {string} username 
+   */
+  isPlayerInGame (username) {
+    return this.players.indexOf(username) !== -1
+  }
+
+  /**
    * Removes the player from the room.
    */
   removePlayer (username) {
@@ -230,6 +246,10 @@ function onJoinGame(socket, io) {
     }
     
     // TODO: Insert duplicate username error here.
+    if (game.isPlayerInGame(username)) {
+      socket.emit('usernameTaken')
+      return
+    }
 
     // Otherwise add the player to the game.
     game.addPlayer(username)
@@ -253,10 +273,12 @@ function onJoinGame(socket, io) {
     registerStartGameEvent(socket, io, game.gameID, username)
 
     // Attatch the events for the next round.
-    onNextRound(socket, io, gameID, username)
+    onNextRound(socket, io, game.gameID, username)
     
     // Attach the events for the user picking a given card.
-    onGetCard(socket, io, gameID, username)
+    onGetCard(socket, io, game.gameID, username)
+
+    onMessage(socket, io, game.gameID, username)
 
     onLeaveRoom(socket, io, game.gameID, username)
   })
@@ -297,6 +319,8 @@ function onCreateGame(socket, io) {
     // Register the user getting a card event.
     onGetCard(socket, io, game.gameID, hostName)
 
+    onMessage(socket, io, game.gameID, hostName)
+
     onLeaveRoom(socket, io, game.gameID, hostName)
   })
 }
@@ -321,7 +345,7 @@ function registerStartGameEvent(socket, io, gameID, username) {
     game.startGame()
 
     // Emit that the game has started to all the users subscribed to the game.
-    io.in(gameID).emit('nextRound', game.currentPlayer())
+    io.in(gameID).emit('nextRound', game.currentPlayer)
   });
 }
 
@@ -341,10 +365,15 @@ function onNextRound(socket, io, gameID, username) {
   socket.on('nextRound', () => {
     let game = games[gameID]
 
-    if (game.currentPlayer() !== username)
+    if (game.currentPlayer !== username)
       return
 
-    io.in(gameID).emit('nextRound', game.nextPlayer())
+    // Take advantage that '0' is a falsy value
+    if (!game.deck.numCards) {
+      io.in(gameID).emit('gameEnded')
+    } else {
+      io.in(gameID).emit('nextRound', game.nextPlayer())
+    }
   })
 } 
 
@@ -364,13 +393,29 @@ function onGetCard(socket, io, gameID, username) {
     let game = games[gameID]
 
     // Prevent someone trying to cheat
-    if (username !== game.currentPlayer())
+    if (username !== game.currentPlayer)
       return;
     
     // Get a random card
     let deck = game.deck;
 
     io.in(gameID).emit('pickedNextCard', { picker: username, card: deck.pickNextCard() })    
+  })
+}
+
+/**
+ * Register the message event. Simply relay
+ * the contents to all clients connected.
+ * 
+ * @param {Socket} socket 
+ * @param {Server} io 
+ * @param {String} gameID 
+ * @param {String} username 
+ */
+function onMessage(socket, io, gameID, username) {
+  socket.on('message', (payload) => {
+    console.log(`Message from ${username} to ${gameID}`)
+    io.in(gameID).emit('message', { sender: username, payload})
   })
 }
 
